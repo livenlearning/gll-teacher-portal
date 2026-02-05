@@ -6,7 +6,11 @@ export const dynamic = "force-dynamic";
 export default async function AdminUsersPage() {
   const users = await prisma.user.findMany({
     include: {
-      cohorts: true,
+      cohortTeachers: {
+        include: {
+          cohort: true,
+        },
+      },
     },
     orderBy: { createdAt: "asc" },
   });
@@ -39,7 +43,7 @@ export default async function AdminUsersPage() {
                     {user.role}
                   </span>
                 </td>
-                <td className="px-5 py-3 text-gray-600">{user.cohorts.length}</td>
+                <td className="px-5 py-3 text-gray-600">{user.cohortTeachers.length}</td>
               </tr>
             ))}
           </tbody>
