@@ -1,0 +1,151 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  TEACHER
+  ADMIN
+}
+
+model User {
+  id         String   @id @default(cuid())
+  email      String   @unique
+  password   String
+  name       String
+  schoolName String?
+  role       Role     @default(TEACHER)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  cohortTeachers CohortTeacher[]
+  partnerSchools PartnerSchool[]
+}
+
+model Cohort {
+  id               String   @id @default(cuid())
+  name             String
+  slug             String   @unique
+  facilitator      String?
+  facilitatorEmail String?
+  startDate        DateTime?
+  endDate          DateTime?
+  sessionDay       String?
+  sessionTime      String?
+  zoomLink         String?
+  padletLink       String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  unitId           String?
+  unit             Unit?    @relation(fields: [unitId], references: [id])
+  weeks            Week[]
+  partnerSchools   PartnerSchool[]
+  teachers         CohortTeacher[]
+}
+
+model CohortTeacher {
+  id        String   @id @default(cuid())
+  cohortId  String
+  cohort    Cohort   @relation(fields: [cohortId], references: [id], onDelete: Cascade)
+  teacherId String
+  teacher   User     @relation(fields: [teacherId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([cohortId, teacherId])
+}
+
+model Week {
+  id         String   @id @default(cuid())
+  cohortId   String
+  cohort     Cohort   @relation(fields: [cohortId], references: [id], onDelete: Cascade)
+  weekNumber Int
+  title      String
+  subtitle   String?
+  unlocked   Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  content WeekContent[]
+
+  @@unique([cohortId, weekNumber])
+}
+
+model PartnerSchool {
+  id        String   @id @default(cuid())
+  cohortId  String
+  cohort    Cohort   @relation(fields: [cohortId], references: [id], onDelete: Cascade)
+  name      String
+  location  String?
+  teacherId String
+  teacher   User     @relation(fields: [teacherId], references: [id])
+}
+
+model WeekContent {
+  id        String      @id @default(cuid())
+  weekId    String
+  week      Week        @relation(fields: [weekId], references: [id], onDelete: Cascade)
+  type      ContentType
+  title     String
+  body      String?
+  url       String?
+  order     Int         @default(0)
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+}
+
+model Unit {
+  id          String     @id @default(cuid())
+  name        String
+  description String?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  weeks   UnitWeek[]
+  cohorts Cohort[]
+}
+
+model UnitWeek {
+  id         String   @id @default(cuid())
+  unitId     String
+  unit       Unit     @relation(fields: [unitId], references: [id], onDelete: Cascade)
+  weekNumber Int
+  title      String
+  subtitle   String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  content UnitWeekContent[]
+
+  @@unique([unitId, weekNumber])
+}
+
+model UnitWeekContent {
+  id         String      @id @default(cuid())
+  unitWeekId String
+  unitWeek   UnitWeek    @relation(fields: [unitWeekId], references: [id], onDelete: Cascade)
+  type       ContentType
+  title      String
+  body       String?
+  url        String?
+  order      Int         @default(0)
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+}
+
+enum ContentType {
+  LESSON
+  RESOURCE
+  ASSIGNMENT
+  VIDEO
+  TASK
+  DELIVERABLE
+  LINK
+  CROSS_CLASSROOM
+  SURVEY
+  GALLERY
+}
