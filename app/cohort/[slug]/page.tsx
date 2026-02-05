@@ -15,7 +15,11 @@ export default async function CohortPage({ params }: { params: Promise<{ slug: s
   const cohort = await prisma.cohort.findFirst({
     where: { slug },
     include: {
-      teacher: { select: { name: true } },
+      teachers: {
+        include: {
+          teacher: { select: { name: true } },
+        },
+      },
       partnerSchools: { include: { teacher: { select: { name: true } } } },
       weeks: {
         orderBy: { weekNumber: "asc" },
