@@ -35,9 +35,10 @@ export default async function CohortPage({ params }: { params: Promise<{ slug: s
   const userId = (session.user as { id: string }).id;
   const isAdmin = (session.user as { role?: string }).role === "ADMIN";
 
-  // Teachers can see cohorts where they are lead teacher or a partner school teacher; admins see all
+  // Teachers can see cohorts where they are assigned as a teacher or a partner school teacher; admins see all
+  const isAssignedTeacher = cohort.teachers.some((ct) => ct.teacherId === userId);
   const isPartnerTeacher = cohort.partnerSchools.some((ps) => ps.teacherId === userId);
-  if (cohort.teacherId !== userId && !isPartnerTeacher && !isAdmin) notFound();
+  if (!isAssignedTeacher && !isPartnerTeacher && !isAdmin) notFound();
 
   return (
     <div className="max-w-3xl mx-auto">
