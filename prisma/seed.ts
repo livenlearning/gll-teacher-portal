@@ -115,7 +115,6 @@ async function main() {
     data: {
       name: "Spring 2026 Cohort A",
       slug: "spring-2026-cohort-a",
-      teacherId: teacherTaipei.id,
       unitId: unit.id,
       facilitator: "Dr. Lisa Park",
       facilitatorEmail: "lisa.park@gll.edu",
@@ -126,6 +125,15 @@ async function main() {
       zoomLink: "https://zoom.us/j/gll-spring-2026-cohort-a",
       padletLink: "https://padlet.com/gll/spring2026cohortA",
     },
+  });
+
+  // Assign teachers to cohort through join table
+  await prisma.cohortTeacher.createMany({
+    data: [
+      { cohortId: cohort.id, teacherId: teacherTaipei.id },
+      { cohortId: cohort.id, teacherId: teacherBrooklyn.id },
+      { cohortId: cohort.id, teacherId: teacherColombia.id },
+    ],
   });
 
   // --- Partner Schools ---
