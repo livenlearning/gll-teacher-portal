@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 type Message = {
   id: string;
   message: string;
-  createdAt: string;
+  createdAt: Date;
   user: {
     name: string;
     schoolName: string | null;
