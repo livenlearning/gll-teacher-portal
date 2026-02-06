@@ -4,6 +4,8 @@ import { authOptions } from "../../../lib/auth";
 import { prisma } from "../../../lib/prisma";
 import Link from "next/link";
 import WeekCard from "../../../components/week-card";
+import CohortTabs from "../../../components/cohort-tabs";
+import CohortMessages from "../../../components/cohort-messages";
 
 export const dynamic = "force-dynamic";
 
@@ -25,6 +27,14 @@ export default async function CohortPage({ params }: { params: Promise<{ slug: s
         orderBy: { weekNumber: "asc" },
         include: {
           content: { orderBy: { order: "asc" } },
+        },
+      },
+      messages: {
+        orderBy: { createdAt: "desc" },
+        include: {
+          user: {
+            select: { name: true, schoolName: true },
+          },
         },
       },
     },
@@ -135,18 +145,29 @@ export default async function CohortPage({ params }: { params: Promise<{ slug: s
         )}
       </div>
 
-      {/* Week Cards */}
-      {cohort.weeks.length === 0 ? (
-        <div className="bg-white border border-gray-200 rounded-xl p-10 text-center">
-          <p className="text-gray-500 text-sm">No weekly content yet.</p>
-        </div>
-      ) : (
-        <div className="space-y-3">
-          {cohort.weeks.map((week) => (
-            <WeekCard key={week.id} week={week} />
-          ))}
-        </div>
-      )}
+      {/* Tabs: Weekly Content & Messages */}
+      <CohortTabs
+        weeklyContent={
+          cohort.weeks.length === 0 ? (
+            <div className="bg-white border border-gray-200 rounded-xl p-10 text-center">
+              <p className="text-gray-500 text-sm">No weekly content yet.</p>
+            </div>
+          ) : (
+            <div className="space-y-3">
+              {cohort.weeks.map((week) => (
+                <WeekCard key={week.id} week={week} />
+              ))}
+            </div>
+          )
+        }
+        messages={
+          <CohortMessages
+            cohortId={cohort.id}
+            messages={cohort.messages}
+            currentUserId={userId}
+          />
+        }
+      />
     </div>
   );
 }
