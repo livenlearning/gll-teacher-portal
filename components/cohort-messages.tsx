@@ -81,7 +81,6 @@ export default function CohortMessages({ cohortId, messages, currentUserId }: Co
           </div>
         ) : (
           messages.map((msg) => {
-            const isCurrentUser = msg.user && currentUserId === msg.user.name; // This will be fixed with proper userId comparison
             const messageDate = new Date(msg.createdAt);
             const formattedDate = messageDate.toLocaleDateString("en-US", {
               month: "short",
