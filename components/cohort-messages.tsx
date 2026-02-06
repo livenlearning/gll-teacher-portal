@@ -16,10 +16,9 @@ type Message = {
 type CohortMessagesProps = {
   cohortId: string;
   messages: Message[];
-  currentUserId: string;
 };
 
-export default function CohortMessages({ cohortId, messages, currentUserId }: CohortMessagesProps) {
+export default function CohortMessages({ cohortId, messages }: CohortMessagesProps) {
   const [newMessage, setNewMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();

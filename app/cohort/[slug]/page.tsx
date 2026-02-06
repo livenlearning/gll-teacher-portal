@@ -164,7 +164,6 @@ export default async function CohortPage({ params }: { params: Promise<{ slug: s
           <CohortMessages
             cohortId={cohort.id}
             messages={cohort.messages}
-            currentUserId={userId}
           />
         }
       />
