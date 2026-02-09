@@ -105,7 +105,7 @@ export default function CreateCohortForm({ teachers, units }: { teachers: Teache
             onChange={(e) => setName(e.target.value)}
             required
             placeholder="Spring 2026 Cohort B"
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-navy-500"
+            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-navy-500"
           />
         </div>
         <div>
@@ -113,7 +113,7 @@ export default function CreateCohortForm({ teachers, units }: { teachers: Teache
           <select
             value={unitId}
             onChange={(e) => setUnitId(e.target.value)}
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-navy-500"
+            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-navy-500"
           >
             <option value="">— No unit —</option>
             {units.map((u) => (
@@ -138,7 +138,7 @@ export default function CreateCohortForm({ teachers, units }: { teachers: Teache
             value={facilitator}
             onChange={(e) => setFacilitator(e.target.value)}
             placeholder="e.g. Dr. Lisa Park"
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-navy-500"
+            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-navy-500"
           />
         </div>
         <div>
@@ -147,7 +147,7 @@ export default function CreateCohortForm({ teachers, units }: { teachers: Teache
             value={facilitatorEmail}
             onChange={(e) => setFacilitatorEmail(e.target.value)}
             placeholder="lisa@gll.edu"
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-navy-500"
+            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-navy-500"
           />
         </div>
       </div>
@@ -160,7 +160,7 @@ export default function CreateCohortForm({ teachers, units }: { teachers: Teache
             type="date"
             value={startDate}
             onChange={(e) => setStartDate(e.target.value)}
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-navy-500"
+            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-navy-500"
           />
         </div>
         <div>
@@ -169,7 +169,7 @@ export default function CreateCohortForm({ teachers, units }: { teachers: Teache
             type="date"
             value={endDate}
             onChange={(e) => setEndDate(e.target.value)}
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-navy-500"
+            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-navy-500"
           />
         </div>
       </div>
@@ -182,7 +182,7 @@ export default function CreateCohortForm({ teachers, units }: { teachers: Teache
             value={sessionDay}
             onChange={(e) => setSessionDay(e.target.value)}
             placeholder="Wednesday"
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-navy-500"
+            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-navy-500"
           />
         </div>
         <div>
@@ -191,7 +191,7 @@ export default function CreateCohortForm({ teachers, units }: { teachers: Teache
             value={sessionTime}
             onChange={(e) => setSessionTime(e.target.value)}
             placeholder="3:00 PM – 4:00 PM (ET)"
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-navy-500"
+            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-navy-500"
           />
         </div>
         <div>
@@ -200,7 +200,7 @@ export default function CreateCohortForm({ teachers, units }: { teachers: Teache
             value={zoomLink}
             onChange={(e) => setZoomLink(e.target.value)}
             placeholder="https://zoom.us/j/..."
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-navy-500"
+            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-navy-500"
           />
         </div>
         <div>
@@ -209,7 +209,7 @@ export default function CreateCohortForm({ teachers, units }: { teachers: Teache
             value={padletLink}
             onChange={(e) => setPadletLink(e.target.value)}
             placeholder="https://padlet.com/..."
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-navy-500"
+            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-navy-500"
           />
         </div>
       </div>
@@ -238,7 +238,7 @@ export default function CreateCohortForm({ teachers, units }: { teachers: Teache
               value={psName}
               onChange={(e) => setPsName(e.target.value)}
               placeholder="Taipei American School"
-              className="border border-gray-300 rounded px-2 py-1 text-xs w-44"
+              className="border border-gray-300 rounded px-2 py-1 text-xs text-gray-900 placeholder-gray-400 w-44"
             />
           </div>
           <div>
@@ -247,7 +247,7 @@ export default function CreateCohortForm({ teachers, units }: { teachers: Teache
               value={psLocation}
               onChange={(e) => setPsLocation(e.target.value)}
               placeholder="Taipei, Taiwan"
-              className="border border-gray-300 rounded px-2 py-1 text-xs w-36"
+              className="border border-gray-300 rounded px-2 py-1 text-xs text-gray-900 placeholder-gray-400 w-36"
             />
           </div>
           <div>
@@ -255,7 +255,7 @@ export default function CreateCohortForm({ teachers, units }: { teachers: Teache
             <select
               value={psTeacherId}
               onChange={(e) => setPsTeacherId(e.target.value)}
-              className="border border-gray-300 rounded px-2 py-1 text-xs bg-white w-36"
+              className="border border-gray-300 rounded px-2 py-1 text-xs text-gray-900 bg-white w-36"
             >
               {teachers.map((t) => (
                 <option key={t.id} value={t.id}>{t.name}</option>

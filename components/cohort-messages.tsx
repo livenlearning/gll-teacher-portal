@@ -57,7 +57,7 @@ export default function CohortMessages({ cohortId, messages }: CohortMessagesPro
             onChange={(e) => setNewMessage(e.target.value)}
             placeholder="Write a message to your cohort team..."
             rows={3}
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-navy-500 resize-none"
+            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-navy-500 resize-none"
             disabled={loading}
           />
           <div className="flex justify-end">

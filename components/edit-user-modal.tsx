@@ -177,7 +177,7 @@ export default function EditUserModal({ user, onClose }: EditUserModalProps) {
                             })
                           }
                           placeholder="e.g., Wednesday"
-                          className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-navy-500"
+                          className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-navy-500"
                         />
                       </div>
                       <div>
@@ -194,7 +194,7 @@ export default function EditUserModal({ user, onClose }: EditUserModalProps) {
                             })
                           }
                           placeholder="e.g., 3:00 PM ET"
-                          className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-navy-500"
+                          className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-navy-500"
                         />
                       </div>
                     </div>
@@ -235,7 +235,7 @@ export default function EditUserModal({ user, onClose }: EditUserModalProps) {
                   onChange={(e) => setPassword(e.target.value)}
                   required
                   placeholder="Enter new password"
-                  className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-navy-500"
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-navy-500"
                 />
                 <p className="text-xs text-gray-500 mt-1">
                   The password will be hashed before saving.

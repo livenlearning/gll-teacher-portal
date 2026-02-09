@@ -42,7 +42,7 @@ export default function CreateUnitForm() {
             onChange={(e) => setName(e.target.value)}
             required
             placeholder="e.g. Cultural Exchange"
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-navy-500"
+            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-navy-500"
           />
         </div>
         <div>
@@ -51,7 +51,7 @@ export default function CreateUnitForm() {
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             placeholder="Brief description of the unit"
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-navy-500"
+            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-navy-500"
           />
         </div>
       </div>
