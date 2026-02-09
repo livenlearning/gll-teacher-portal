@@ -37,21 +37,12 @@ export async function POST(req: Request) {
     data: { name, description: description || null },
   });
 
-  // Auto-create 6 modules with specific titles
-  const weekTitles = [
-    "Before We Begin",
-    "Week 1",
-    "Week 2",
-    "Week 3",
-    "Week 4",
-    "What's Next"
-  ];
-
+  // Auto-create 6 modules with blank titles for user to fill in
   await prisma.unitWeek.createMany({
-    data: weekTitles.map((title, index) => ({
+    data: [1, 2, 3, 4, 5, 6].map((n) => ({
       unitId: unit.id,
-      weekNumber: index + 1,
-      title: title,
+      weekNumber: n,
+      title: "",
       subtitle: null,
     })),
   });

@@ -45,6 +45,15 @@ const TYPE_LABELS: Record<string, string> = {
 
 const DEFAULT_CONTENT = { type: "LESSON", title: "", body: "", url: "" };
 
+const WEEK_LABELS: Record<number, string> = {
+  1: "Before We Begin",
+  2: "Week 1",
+  3: "Week 2",
+  4: "Week 3",
+  5: "Week 4",
+  6: "What's Next",
+};
+
 export default function AdminUnitEditPage() {
   const { id } = useParams<{ id: string }>();
   const [unit, setUnit] = useState<Unit | null>(null);
@@ -265,7 +274,7 @@ export default function AdminUnitEditPage() {
             <div className="px-5 py-3 bg-gray-50 border-b border-gray-200 flex items-center justify-between gap-3">
               <div className="flex items-center gap-2 flex-1 min-w-0">
                 <span className="text-xs font-bold text-navy-600 bg-navy-50 px-2 py-0.5 rounded-full shrink-0">
-                  Week {week.weekNumber}
+                  {WEEK_LABELS[week.weekNumber] || `Module ${week.weekNumber}`}
                 </span>
                 <input
                   defaultValue={week.title}
