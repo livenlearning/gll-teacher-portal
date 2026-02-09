@@ -19,7 +19,7 @@ export default async function CohortPage({ params }: { params: Promise<{ slug: s
     include: {
       teachers: {
         include: {
-          teacher: { select: { name: true } },
+          teacher: { select: { name: true, schoolName: true } },
         },
       },
       partnerSchools: { include: { teacher: { select: { name: true } } } },
@@ -74,43 +74,73 @@ export default async function CohortPage({ params }: { params: Promise<{ slug: s
             </span>
           </div>
 
-          {/* Session Info + Partner Schools */}
-          <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="space-y-1.5">
-              {cohort.sessionDay && cohort.sessionTime && (
-                <div className="flex items-center gap-2 text-sm text-gray-600">
-                  <svg className="w-4 h-4 text-navy-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                  </svg>
-                  <span>{cohort.sessionDay}, {cohort.sessionTime}</span>
-                </div>
-              )}
-              {cohort.startDate && cohort.endDate && (
-                <div className="flex items-center gap-2 text-sm text-gray-600">
-                  <svg className="w-4 h-4 text-navy-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-                  </svg>
-                  <span>
-                    {new Date(cohort.startDate).toLocaleDateString("en-US", { month: "short", day: "numeric" })} –{" "}
-                    {new Date(cohort.endDate).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
-                  </span>
-                </div>
-              )}
-            </div>
-            {cohort.partnerSchools.length > 0 && (
-              <div>
-                <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Partner Schools</p>
-                <div className="flex flex-wrap gap-1.5">
-                  {cohort.partnerSchools.map((school) => (
-                    <span key={school.id} className="text-xs bg-navy-50 text-navy-700 px-2 py-0.5 rounded-full">
-                      {school.name}
-                      {school.location && <span className="text-navy-400 ml-1">— {school.location}</span>}
-                    </span>
-                  ))}
-                </div>
+          {/* Cohort Dates */}
+          {cohort.startDate && cohort.endDate && (
+            <div className="mt-4">
+              <div className="flex items-center gap-2 text-sm text-gray-600">
+                <svg className="w-4 h-4 text-navy-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                </svg>
+                <span>
+                  {new Date(cohort.startDate).toLocaleDateString("en-US", { month: "short", day: "numeric" })} –{" "}
+                  {new Date(cohort.endDate).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
+                </span>
               </div>
-            )}
-          </div>
+            </div>
+          )}
+
+          {/* Teacher Session Times */}
+          {cohort.teachers.length > 0 && (
+            <div className="mt-4">
+              <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">Teacher Sessions</p>
+              <div className="space-y-2">
+                {cohort.teachers.map((ct) => {
+                  const isCurrentTeacher = ct.teacherId === userId;
+                  return (
+                    <div
+                      key={ct.id}
+                      className={`flex items-start gap-2 text-sm p-2 rounded-lg ${
+                        isCurrentTeacher ? "bg-gold-50 border border-gold-200" : "bg-gray-50"
+                      }`}
+                    >
+                      <svg className="w-4 h-4 text-navy-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                      </svg>
+                      <div className="flex-1">
+                        <div className="font-medium text-navy-900">
+                          {ct.teacher.name}
+                          {isCurrentTeacher && <span className="ml-2 text-xs text-gold-600">(You)</span>}
+                        </div>
+                        {ct.teacher.schoolName && (
+                          <div className="text-xs text-gray-500">{ct.teacher.schoolName}</div>
+                        )}
+                        {ct.sessionDay && ct.sessionTime ? (
+                          <div className="text-gray-700 mt-0.5">{ct.sessionDay}, {ct.sessionTime}</div>
+                        ) : (
+                          <div className="text-gray-400 italic text-xs mt-0.5">Session time not set</div>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
+          {/* Partner Schools */}
+          {cohort.partnerSchools.length > 0 && (
+            <div className="mt-4">
+              <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Partner Schools</p>
+              <div className="flex flex-wrap gap-1.5">
+                {cohort.partnerSchools.map((school) => (
+                  <span key={school.id} className="text-xs bg-navy-50 text-navy-700 px-2 py-0.5 rounded-full">
+                    {school.name}
+                    {school.location && <span className="text-navy-400 ml-1">— {school.location}</span>}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
