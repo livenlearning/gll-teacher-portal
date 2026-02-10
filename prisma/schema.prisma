@@ -39,6 +39,7 @@ model Cohort {
   sessionTime      String?
   zoomLink         String?
   padletLink       String?
+  mediaFolderLink  String?
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
 

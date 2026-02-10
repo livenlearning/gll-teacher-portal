@@ -57,7 +57,7 @@ export async function POST(req: Request) {
     facilitator, facilitatorEmail,
     startDate, endDate,
     sessionDay, sessionTime,
-    zoomLink, padletLink,
+    zoomLink, padletLink, mediaFolderLink,
     partnerSchools,
   } = await req.json();
 
@@ -78,6 +78,7 @@ export async function POST(req: Request) {
     sessionDay: sessionDay || null,
     sessionTime: sessionTime || null,
     zoomLink: zoomLink || null,
+    mediaFolderLink: mediaFolderLink || null,
     padletLink: padletLink || null,
   };
 

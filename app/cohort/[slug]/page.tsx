@@ -173,6 +173,15 @@ export default async function CohortPage({ params }: { params: Promise<{ slug: s
             Contact Facilitator
           </a>
         )}
+        {cohort.mediaFolderLink && (
+          <a href={cohort.mediaFolderLink} target="_blank" rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 text-sm text-navy-600 hover:text-navy-800 font-medium transition-colors">
+            <svg className="w-4 h-4 text-gold-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
+            </svg>
+            Media Folder
+          </a>
+        )}
       </div>
 
       {/* Tabs: Weekly Content & Messages */}

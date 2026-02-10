@@ -51,6 +51,7 @@ interface Cohort {
   sessionTime: string | null;
   zoomLink: string | null;
   padletLink: string | null;
+  mediaFolderLink: string | null;
   partnerSchools: PartnerSchool[];
   weeks: Week[];
 }
@@ -164,6 +165,7 @@ export default function AdminCohortEditPage() {
         sessionTime: formData.get("sessionTime"),
         zoomLink: formData.get("zoomLink"),
         padletLink: formData.get("padletLink"),
+        mediaFolderLink: formData.get("mediaFolderLink"),
       }),
     });
   }
@@ -291,6 +293,12 @@ export default function AdminCohortEditPage() {
               placeholder="https://padlet.com/..."
               className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-navy-500" />
           </div>
+        </div>
+        <div className="mb-3">
+          <label className="block text-xs text-gray-500 mb-1">Media Folder Link</label>
+          <input name="mediaFolderLink" defaultValue={cohort.mediaFolderLink ?? ""}
+            placeholder="https://drive.google.com/... or https://dropbox.com/..."
+            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-navy-500" />
         </div>
         <button type="submit" className="mt-4 bg-navy-600 text-white px-4 py-1.5 rounded-lg text-xs font-semibold hover:bg-navy-700 transition-colors">
           Save

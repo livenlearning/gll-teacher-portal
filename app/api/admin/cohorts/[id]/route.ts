@@ -75,6 +75,7 @@ export async function PATCH(
       sessionTime: body.sessionTime ?? undefined,
       zoomLink: body.zoomLink ?? undefined,
       padletLink: body.padletLink ?? undefined,
+      mediaFolderLink: body.mediaFolderLink ?? undefined,
     },
   });
 

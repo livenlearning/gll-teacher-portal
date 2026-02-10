@@ -33,6 +33,7 @@ export default function CreateCohortForm({ teachers, units }: { teachers: Teache
   const [sessionTime, setSessionTime] = useState("");
   const [zoomLink, setZoomLink] = useState("");
   const [padletLink, setPadletLink] = useState("");
+  const [mediaFolderLink, setMediaFolderLink] = useState("");
 
   // Partner schools (dynamic list)
   const [partnerSchools, setPartnerSchools] = useState<PartnerSchoolEntry[]>([]);
@@ -74,6 +75,7 @@ export default function CreateCohortForm({ teachers, units }: { teachers: Teache
         sessionTime,
         zoomLink,
         padletLink,
+        mediaFolderLink,
         partnerSchools,
       }),
     });
@@ -174,7 +176,7 @@ export default function CreateCohortForm({ teachers, units }: { teachers: Teache
         </div>
       </div>
 
-      {/* Row 4: Session + Links */}
+      {/* Row 4: Session + Links (Part 1) */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-3">
         <div>
           <label className="block text-xs text-gray-500 mb-1">Session Day</label>
@@ -212,6 +214,17 @@ export default function CreateCohortForm({ teachers, units }: { teachers: Teache
             className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-navy-500"
           />
         </div>
+      </div>
+
+      {/* Row 5: Media Folder Link */}
+      <div className="mb-3">
+        <label className="block text-xs text-gray-500 mb-1">Media Folder Link</label>
+        <input
+          value={mediaFolderLink}
+          onChange={(e) => setMediaFolderLink(e.target.value)}
+          placeholder="https://drive.google.com/... or https://dropbox.com/..."
+          className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-navy-500"
+        />
       </div>
 
       {/* Partner Schools section */}
