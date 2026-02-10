@@ -20,11 +20,17 @@ type User = {
   schoolName?: string | null;
 };
 
-type UsersTableProps = {
-  users: User[];
+type Cohort = {
+  id: string;
+  name: string;
 };
 
-export default function UsersTable({ users }: UsersTableProps) {
+type UsersTableProps = {
+  users: User[];
+  availableCohorts: Cohort[];
+};
+
+export default function UsersTable({ users, availableCohorts }: UsersTableProps) {
   const [editingUser, setEditingUser] = useState<User | null>(null);
 
   return (
@@ -94,7 +100,11 @@ export default function UsersTable({ users }: UsersTableProps) {
       </div>
 
       {editingUser && (
-        <EditUserModal user={editingUser} onClose={() => setEditingUser(null)} />
+        <EditUserModal
+          user={editingUser}
+          availableCohorts={availableCohorts}
+          onClose={() => setEditingUser(null)}
+        />
       )}
     </>
   );

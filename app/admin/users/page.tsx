@@ -21,13 +21,21 @@ export default async function AdminUsersPage() {
     orderBy: { createdAt: "asc" },
   });
 
+  const cohorts = await prisma.cohort.findMany({
+    select: {
+      id: true,
+      name: true,
+    },
+    orderBy: { name: "asc" },
+  });
+
   return (
     <div>
       <h1 className="text-2xl font-bold text-navy-900 mb-6">Users</h1>
 
       <CreateUserForm />
 
-      <UsersTable users={users} />
+      <UsersTable users={users} availableCohorts={cohorts} />
     </div>
   );
 }
