@@ -122,8 +122,9 @@ export default function EditUserModal({ user, availableCohorts, onClose }: EditU
       });
 
       if (response.ok) {
-        alert("Teacher added to cohort successfully");
+        alert("Teacher added to cohort successfully. Reopen to set session times.");
         setSelectedCohort("");
+        onClose();
         router.refresh();
       } else {
         const data = await response.json();
@@ -149,6 +150,7 @@ export default function EditUserModal({ user, availableCohorts, onClose }: EditU
 
       if (response.ok) {
         alert("Teacher removed from cohort successfully");
+        onClose();
         router.refresh();
       } else {
         alert("Failed to remove teacher from cohort");
