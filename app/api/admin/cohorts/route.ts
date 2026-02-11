@@ -22,24 +22,6 @@ async function uniqueSlug(name: string) {
   return slug;
 }
 
-// Standard Week 0 content that every cohort gets automatically
-const PRE_UNIT_CONTENT = [
-  { type: "LESSON" as const, title: "Welcome & What to Expect", body: "An overview of how Global Learning Labs works and what you'll do over the next four weeks.", order: 0 },
-  { type: "VIDEO" as const, title: "Facilitator Introduction", url: "https://example.com/videos/facilitator-intro", body: "Meet your facilitator and hear their vision for this cohort.", order: 1 },
-  { type: "RESOURCE" as const, title: "Student Handbook", url: "https://example.com/docs/student-handbook.pdf", body: "Everything you need to know before day one.", order: 2 },
-  { type: "TASK" as const, title: "Fill Out Your Profile", body: "Add your name, school, and a short bio to the class Padlet so your partners can meet you.", order: 3 },
-  { type: "SURVEY" as const, title: "Pre-Unit Interest Survey", url: "https://example.com/surveys/pre-unit", body: "Let us know what you're most curious about.", order: 4 },
-];
-
-// Standard post-unit week content that every cohort gets automatically
-const POST_UNIT_CONTENT = [
-  { type: "LESSON" as const, title: "Looking Back, Looking Forward", body: "Reflect on what you learned about the world — and yourself — through this unit.", order: 0 },
-  { type: "TASK" as const, title: "Culture Journal – Final Entry", body: "Write your closing reflection: What was your biggest takeaway from GLL?", order: 1 },
-  { type: "SURVEY" as const, title: "Post-Unit Survey", url: "https://example.com/surveys/post-unit", body: "Share your feedback so we can make the next cohort even better.", order: 2 },
-  { type: "RESOURCE" as const, title: "Staying Connected Guide", url: "https://example.com/docs/staying-connected.pdf", body: "Ideas for keeping in touch with your GLL partners after the unit ends.", order: 3 },
-  { type: "LINK" as const, title: "GLL Alumni Network", url: "https://example.com/alumni", body: "Join the network of past GLL participants.", order: 4 },
-];
-
 interface PartnerSchoolInput {
   name: string;
   location?: string;
@@ -117,15 +99,8 @@ export async function POST(req: Request) {
 
     await createPartnerSchools(cohort.id);
 
-    // Week 0: Pre-Unit (standard, always unlocked)
-    const week0 = await prisma.week.create({
-      data: { cohortId: cohort.id, weekNumber: 0, title: "Before We Begin", subtitle: "Prepare for your virtual field trip", unlocked: true },
-    });
-    await prisma.weekContent.createMany({
-      data: PRE_UNIT_CONTENT.map((c) => ({ weekId: week0.id, ...c })),
-    });
-
-    // Weeks 1–N: copy from unit weeks (week 1 unlocked, rest locked)
+    // Copy all weeks from the unit (no hardcoded content)
+    // First week (usually "Before We Begin") is unlocked, rest are locked
     for (const unitWeek of unit.weeks) {
       const cohortWeek = await prisma.week.create({
         data: {
@@ -133,9 +108,10 @@ export async function POST(req: Request) {
           weekNumber: unitWeek.weekNumber,
           title: unitWeek.title,
           subtitle: unitWeek.subtitle,
-          unlocked: unitWeek.weekNumber === 1,
+          unlocked: unitWeek.weekNumber === 1, // First module unlocked
         },
       });
+      // Copy content if it exists
       if (unitWeek.content.length > 0) {
         await prisma.weekContent.createMany({
           data: unitWeek.content.map((c) => ({
@@ -149,15 +125,6 @@ export async function POST(req: Request) {
         });
       }
     }
-
-    // Post-Unit week: weekNumber = max unit week number + 1
-    const maxUnitWeekNumber = unit.weeks.length > 0 ? Math.max(...unit.weeks.map((w) => w.weekNumber)) : 0;
-    const weekPost = await prisma.week.create({
-      data: { cohortId: cohort.id, weekNumber: maxUnitWeekNumber + 1, title: "After the Unit", subtitle: "Reflect and carry the learning forward", unlocked: false },
-    });
-    await prisma.weekContent.createMany({
-      data: POST_UNIT_CONTENT.map((c) => ({ weekId: weekPost.id, ...c })),
-    });
 
     return NextResponse.json(cohort, { status: 201 });
   }
