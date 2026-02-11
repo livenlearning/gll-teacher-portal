@@ -99,31 +99,20 @@ export async function POST(req: Request) {
 
     await createPartnerSchools(cohort.id);
 
-    // Copy all weeks from the unit (no hardcoded content)
+    // Link all weeks from the unit (no copying content)
     // First week (usually "Before We Begin") is unlocked, rest are locked
     for (const unitWeek of unit.weeks) {
-      const cohortWeek = await prisma.week.create({
+      await prisma.week.create({
         data: {
           cohortId: cohort.id,
+          unitWeekId: unitWeek.id, // Link to the unit week instead of copying
           weekNumber: unitWeek.weekNumber,
           title: unitWeek.title,
           subtitle: unitWeek.subtitle,
           unlocked: unitWeek.weekNumber === 1, // First module unlocked
         },
       });
-      // Copy content if it exists
-      if (unitWeek.content.length > 0) {
-        await prisma.weekContent.createMany({
-          data: unitWeek.content.map((c) => ({
-            weekId: cohortWeek.id,
-            type: c.type,
-            title: c.title,
-            body: c.body,
-            url: c.url,
-            order: c.order,
-          })),
-        });
-      }
+      // No longer copying content - it will be read from unitWeek dynamically
     }
 
     return NextResponse.json(cohort, { status: 201 });

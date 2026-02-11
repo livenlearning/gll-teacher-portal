@@ -27,6 +27,11 @@ export default async function CohortPage({ params }: { params: Promise<{ slug: s
         orderBy: { weekNumber: "asc" },
         include: {
           content: { orderBy: { order: "asc" } },
+          unitWeek: {
+            include: {
+              content: { orderBy: { order: "asc" } },
+            },
+          },
         },
       },
       messages: {
@@ -50,6 +55,13 @@ export default async function CohortPage({ params }: { params: Promise<{ slug: s
   const isPartnerTeacher = cohort.partnerSchools.some((ps) => ps.teacherId === userId);
   if (!isAssignedTeacher && !isPartnerTeacher && !isAdmin) notFound();
 
+  // Transform weeks to use unitWeek content when available (for linked cohorts)
+  // If unitWeek exists, use its content; otherwise fall back to copied content
+  const weeksWithContent = cohort.weeks.map((week) => ({
+    ...week,
+    content: week.unitWeek ? week.unitWeek.content : week.content,
+  }));
+
   return (
     <div className="max-w-3xl mx-auto">
       <Link href="/dashboard" className="text-sm text-navy-600 hover:underline mb-4 inline-block">
@@ -70,7 +82,7 @@ export default async function CohortPage({ params }: { params: Promise<{ slug: s
               )}
             </div>
             <span className="text-xs bg-navy-50 text-navy-600 px-2.5 py-1 rounded-full font-medium">
-              {cohort.weeks.length} week{cohort.weeks.length !== 1 ? "s" : ""}
+              {weeksWithContent.length} week{weeksWithContent.length !== 1 ? "s" : ""}
             </span>
           </div>
 
@@ -187,13 +199,13 @@ export default async function CohortPage({ params }: { params: Promise<{ slug: s
       {/* Tabs: Weekly Content & Messages */}
       <CohortTabs
         weeklyContent={
-          cohort.weeks.length === 0 ? (
+          weeksWithContent.length === 0 ? (
             <div className="bg-white border border-gray-200 rounded-xl p-10 text-center">
               <p className="text-gray-500 text-sm">No weekly content yet.</p>
             </div>
           ) : (
             <div className="space-y-3">
-              {cohort.weeks.map((week) => (
+              {weeksWithContent.map((week) => (
                 <WeekCard key={week.id} week={week} />
               ))}
             </div>

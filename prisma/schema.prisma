@@ -68,6 +68,8 @@ model Week {
   id         String   @id @default(cuid())
   cohortId   String
   cohort     Cohort   @relation(fields: [cohortId], references: [id], onDelete: Cascade)
+  unitWeekId String?
+  unitWeek   UnitWeek? @relation(fields: [unitWeekId], references: [id])
   weekNumber Int
   title      String
   subtitle   String?
@@ -124,7 +126,8 @@ model UnitWeek {
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 
-  content UnitWeekContent[]
+  content       UnitWeekContent[]
+  cohortWeeks   Week[]
 
   @@unique([unitId, weekNumber])
 }
