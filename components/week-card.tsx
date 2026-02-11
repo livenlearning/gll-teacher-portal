@@ -19,6 +19,15 @@ interface Week {
   content: WeekContentItem[];
 }
 
+const WEEK_LABELS: Record<number, string> = {
+  1: "Before We Begin",
+  2: "Week 1",
+  3: "Week 2",
+  4: "Week 3",
+  5: "Week 4",
+  6: "What's Next",
+};
+
 const TYPE_LABELS: Record<string, string> = {
   LESSON: "Lesson",
   VIDEO: "Video",
@@ -70,7 +79,7 @@ export default function WeekCard({ week }: { week: Week }) {
           <div>
             <div className="flex items-center gap-2">
               <span className="text-xs font-semibold text-navy-600 uppercase tracking-wide">
-                {week.weekNumber === 0 ? "Pre-Unit" : `Week ${week.weekNumber}`}
+                {WEEK_LABELS[week.weekNumber] || `Week ${week.weekNumber}`}
               </span>
               {!week.unlocked && (
                 <span className="text-xs bg-gray-200 text-gray-500 px-1.5 py-0.25 rounded-full">Locked</span>
