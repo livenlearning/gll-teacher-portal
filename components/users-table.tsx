@@ -17,6 +17,15 @@ type User = {
       name: string;
     };
   }[];
+  partnerSchools: {
+    id: string;
+    name: string;
+    location: string | null;
+    cohort: {
+      id: string;
+      name: string;
+    };
+  }[];
   schoolName?: string | null;
 };
 
