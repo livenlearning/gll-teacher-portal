@@ -17,6 +17,16 @@ export default async function AdminUsersPage() {
           },
         },
       },
+      partnerSchools: {
+        include: {
+          cohort: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+        },
+      },
     },
     orderBy: { createdAt: "asc" },
   });

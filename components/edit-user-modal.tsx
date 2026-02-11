@@ -13,6 +13,16 @@ type CohortTeacher = {
   };
 };
 
+type PartnerSchool = {
+  id: string;
+  name: string;
+  location: string | null;
+  cohort: {
+    id: string;
+    name: string;
+  };
+};
+
 type Cohort = {
   id: string;
   name: string;
@@ -24,6 +34,7 @@ type EditUserModalProps = {
     name: string;
     email: string;
     cohortTeachers: CohortTeacher[];
+    partnerSchools: PartnerSchool[];
   };
   availableCohorts: Cohort[];
   onClose: () => void;
@@ -163,6 +174,31 @@ export default function EditUserModal({ user, availableCohorts, onClose }: EditU
     }
   }
 
+  async function handleRemovePartnerSchool(partnerSchoolId: string) {
+    if (!confirm("Are you sure you want to remove this partner school assignment?")) return;
+
+    setLoading(true);
+
+    try {
+      const response = await fetch(`/api/partner-schools/${partnerSchoolId}`, {
+        method: "DELETE",
+      });
+
+      if (response.ok) {
+        alert("Partner school assignment removed successfully");
+        onClose();
+        router.refresh();
+      } else {
+        alert("Failed to remove partner school assignment");
+      }
+    } catch (error) {
+      console.error("Failed to remove partner school assignment:", error);
+      alert("Failed to remove partner school assignment");
+    } finally {
+      setLoading(false);
+    }
+  }
+
   async function handleDeleteUser() {
     if (!confirm(`Are you sure you want to delete ${user.name}? This action cannot be undone.`)) return;
 
@@ -235,7 +271,7 @@ export default function EditUserModal({ user, availableCohorts, onClose }: EditU
                 : "text-gray-500 hover:text-gray-700 border-transparent"
             }`}
           >
-            Cohorts ({user.cohortTeachers.length})
+            Cohorts ({user.cohortTeachers.length + user.partnerSchools.length})
           </button>
           <button
             onClick={() => setActiveTab("sessions")}
@@ -263,12 +299,12 @@ export default function EditUserModal({ user, availableCohorts, onClose }: EditU
         <div className="p-6 overflow-y-auto max-h-[calc(90vh-180px)]">
           {activeTab === "cohorts" && (
             <div className="space-y-4">
-              {/* Current cohorts */}
+              {/* Direct cohort assignments */}
               <div>
-                <h3 className="text-sm font-semibold text-gray-700 mb-3">Current Cohorts</h3>
+                <h3 className="text-sm font-semibold text-gray-700 mb-3">Direct Cohort Assignments</h3>
                 {user.cohortTeachers.length === 0 ? (
                   <p className="text-gray-500 text-sm text-center py-4 bg-gray-50 rounded-lg">
-                    Not assigned to any cohorts yet
+                    No direct cohort assignments
                   </p>
                 ) : (
                   <div className="space-y-2">
@@ -287,6 +323,32 @@ export default function EditUserModal({ user, availableCohorts, onClose }: EditU
                   </div>
                 )}
               </div>
+
+              {/* Partner school assignments */}
+              {user.partnerSchools.length > 0 && (
+                <div>
+                  <h3 className="text-sm font-semibold text-gray-700 mb-3">Partner School Assignments</h3>
+                  <div className="space-y-2">
+                    {user.partnerSchools.map((ps) => (
+                      <div key={ps.id} className="flex items-center justify-between bg-blue-50 rounded-lg p-3">
+                        <div>
+                          <span className="text-sm font-medium text-gray-800">{ps.cohort.name}</span>
+                          <p className="text-xs text-gray-500">
+                            {ps.name}{ps.location ? ` (${ps.location})` : ""}
+                          </p>
+                        </div>
+                        <button
+                          onClick={() => handleRemovePartnerSchool(ps.id)}
+                          disabled={loading}
+                          className="text-xs text-red-500 hover:text-red-700 disabled:opacity-50"
+                        >
+                          Remove
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
 
               {/* Add to cohort */}
               <div className="border-t pt-4">
