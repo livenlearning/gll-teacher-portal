@@ -3,6 +3,15 @@ import { authOptions } from "../../lib/auth";
 import { prisma } from "../../lib/prisma";
 import Link from "next/link";
 
+const WEEK_LABELS: Record<number, string> = {
+  1: "Before We Begin",
+  2: "Week 1",
+  3: "Week 2",
+  4: "Week 3",
+  5: "Week 4",
+  6: "What's Next",
+};
+
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
@@ -50,16 +59,16 @@ export default async function DashboardPage() {
               <h2 className="text-base font-semibold text-gray-800">{cohort.name}</h2>
               <p className="text-xs text-gray-400 mt-1">{cohort.weeks.length} week{cohort.weeks.length !== 1 ? "s" : ""} of content</p>
               <div className="mt-3 flex flex-wrap gap-1">
-                {cohort.weeks.slice(0, 4).map((week) => (
+                {cohort.weeks.filter((week) => week.unlocked).map((week) => (
                   <span
                     key={week.id}
                     className="inline-block bg-navy-50 text-navy-600 text-xs px-2 py-0.5 rounded-full"
                   >
-                    Week {week.weekNumber}
+                    {WEEK_LABELS[week.weekNumber] || `Week ${week.weekNumber}`}
                   </span>
                 ))}
-                {cohort.weeks.length > 4 && (
-                  <span className="text-xs text-gray-400">+{cohort.weeks.length - 4} more</span>
+                {cohort.weeks.filter((week) => week.unlocked).length === 0 && (
+                  <span className="text-xs text-gray-400 italic">No modules unlocked yet</span>
                 )}
               </div>
             </Link>
