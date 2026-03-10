@@ -17,14 +17,15 @@ export async function PATCH(request: NextRequest) {
   try {
     const { updates } = await request.json();
 
-    // Updates is an array of { cohortTeacherId, sessionDay, sessionTime }
+    // Updates is an array of { cohortTeacherId, sessionDay, sessionTime, zoomLink }
     await Promise.all(
-      updates.map((update: { cohortTeacherId: string; sessionDay: string | null; sessionTime: string | null }) =>
+      updates.map((update: { cohortTeacherId: string; sessionDay: string | null; sessionTime: string | null; zoomLink: string | null }) =>
         prisma.cohortTeacher.update({
           where: { id: update.cohortTeacherId },
           data: {
             sessionDay: update.sessionDay,
             sessionTime: update.sessionTime,
+            zoomLink: update.zoomLink,
           },
         })
       )

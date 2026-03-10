@@ -7,6 +7,7 @@ type CohortTeacher = {
   id: string;
   sessionDay: string | null;
   sessionTime: string | null;
+  zoomLink: string | null;
   cohort: {
     id: string;
     name: string;
@@ -42,13 +43,14 @@ type EditUserModalProps = {
 
 export default function EditUserModal({ user, availableCohorts, onClose }: EditUserModalProps) {
   const [password, setPassword] = useState("");
-  const [sessionTimes, setSessionTimes] = useState<Record<string, { day: string; time: string }>>(
+  const [sessionTimes, setSessionTimes] = useState<Record<string, { day: string; time: string; zoom: string }>>(
     Object.fromEntries(
       user.cohortTeachers.map((ct) => [
         ct.id,
         {
           day: ct.sessionDay || "",
           time: ct.sessionTime || "",
+          zoom: ct.zoomLink || "",
         },
       ])
     )
@@ -96,6 +98,7 @@ export default function EditUserModal({ user, availableCohorts, onClose }: EditU
         cohortTeacherId,
         sessionDay: times.day || null,
         sessionTime: times.time || null,
+        zoomLink: times.zoom || null,
       }));
 
       const response = await fetch("/api/cohort-teachers/session-times", {
@@ -425,6 +428,23 @@ export default function EditUserModal({ user, availableCohorts, onClose }: EditU
                           className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-navy-500"
                         />
                       </div>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-navy-700 mb-1">
+                        Zoom Link
+                      </label>
+                      <input
+                        type="url"
+                        value={sessionTimes[ct.id]?.zoom || ""}
+                        onChange={(e) =>
+                          setSessionTimes({
+                            ...sessionTimes,
+                            [ct.id]: { ...sessionTimes[ct.id], zoom: e.target.value },
+                          })
+                        }
+                        placeholder="https://zoom.us/j/..."
+                        className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-navy-500"
+                      />
                     </div>
                   </div>
                 ))

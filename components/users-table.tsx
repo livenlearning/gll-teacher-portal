@@ -12,6 +12,7 @@ type User = {
     id: string;
     sessionDay: string | null;
     sessionTime: string | null;
+    zoomLink: string | null;
     cohort: {
       id: string;
       name: string;

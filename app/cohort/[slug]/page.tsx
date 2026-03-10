@@ -131,6 +131,20 @@ export default async function CohortPage({ params }: { params: Promise<{ slug: s
                         ) : (
                           <div className="text-gray-400 italic text-xs mt-0.5">Session time not set</div>
                         )}
+                        {ct.zoomLink && (
+                          <a
+                            href={ct.zoomLink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={(e) => e.stopPropagation()}
+                            className="inline-flex items-center gap-1 text-xs text-navy-600 hover:underline mt-0.5"
+                          >
+                            <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M4 8h7v8H4a1 1 0 01-1-1V9a1 1 0 011-1z" />
+                            </svg>
+                            Join Zoom
+                          </a>
+                        )}
                       </div>
                     </div>
                   );
@@ -165,15 +179,6 @@ export default async function CohortPage({ params }: { params: Promise<{ slug: s
               <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z" />
             </svg>
             Padlet
-          </a>
-        )}
-        {cohort.zoomLink && (
-          <a href={cohort.zoomLink} target="_blank" rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 text-sm text-navy-600 hover:text-navy-800 font-medium transition-colors">
-            <svg className="w-4 h-4 text-gold-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M4 8h7v8H4a1 1 0 01-1-1V9a1 1 0 011-1z" />
-            </svg>
-            Zoom Meeting
           </a>
         )}
         {cohort.facilitatorEmail && (
